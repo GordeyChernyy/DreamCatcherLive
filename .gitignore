@@ -1,0 +1,5 @@
+obj
+bin/DreamCatcherLive.app
+bin/DreamCatcherLive.app/*
+bin/DreamCatcherLiveDebug.app
+bin/DreamCatcherLiveDebug.app/*

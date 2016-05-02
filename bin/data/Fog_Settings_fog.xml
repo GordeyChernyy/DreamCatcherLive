@@ -1,0 +1,11 @@
+<Fog_Settings_fog>
+	<Fog_Params>
+		<fog_Mode>0</fog_Mode>
+		<Color>0, 0, 0, 1</Color>
+		<density>0.00214286</density>
+		<fogStart>448.98</fogStart>
+		<fogEnd>897.959</fogEnd>
+		<enableFogCoordinate>0</enableFogCoordinate>
+	</Fog_Params>
+<Fog_Settings_fog/>
+</Fog_Settings_fog>

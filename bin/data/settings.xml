@@ -1,0 +1,107 @@
+<parameters>
+	<stageParam>
+		<brushMode>1</brushMode>
+		<showInfo>0</showInfo>
+		<enableMouse>0</enableMouse>
+		<enableKaleidoscope>0</enableKaleidoscope>
+		<enableMovingFbo>0</enableMovingFbo>
+		<pointerSize>1.12245</pointerSize>
+		<pointerColor>255, 255, 255, 255</pointerColor>
+	<lightPos>0, 0</lightPos>
+		<lightSmooth>0.02</lightSmooth>
+		<lightOpacity>206</lightOpacity>
+		<lightScale>0.02</lightScale>
+		<enableLight>1</enableLight>
+	<aNum>6</aNum>
+		<bNum>11</bNum>
+		<blendAlpha>0.229592</blendAlpha>
+	<bgPos>-77.8842, 0.416504</bgPos>
+		<bgScale>1.21173</bgScale>
+	<isFlower>0</isFlower>
+	</stageParam>
+	<DreamBrush>
+		<historyMax>554</historyMax>
+		<type_line>0</type_line>
+		<size>538</size>
+		<opacity>67.6531</opacity>
+		<lineWidth>1.78571</lineWidth>
+		<swatch>1</swatch>
+		<bgColor>255, 255, 255, 255</bgColor>
+		<activeColor>9, 255, 239, 255</activeColor>
+		<col1>239, 213, 31, 255</col1>
+		<col2>9, 255, 239, 255</col2>
+		<col3>249, 71, 49, 255</col3>
+	</DreamBrush>
+	<TriangleBrush>
+		<dotDistance>14</dotDistance>
+		<pointChoice>50</pointChoice>
+		<indexRange>14</indexRange>
+		<opacity>120</opacity>
+	<enableShape>0</enableShape>
+		<enableTriangle>1</enableTriangle>
+	</TriangleBrush>
+	<movingFbo>
+		<imagesTotal>12</imagesTotal>
+		<speed>3</speed>
+		<bgColor>0, 0, 0, 0</bgColor>
+		<reload>1</reload>
+	</movingFbo>
+	<Kaleidoscope>
+		<count>0.336735</count>
+		<offsetX>-0.4</offsetX>
+		<offsetY>-0.2</offsetY>
+		<pos>1024.21, 768.16</pos>
+	<pX>0.331633</pX>
+		<pY>0.0153061</pY>
+	<posX>0.47449</posX>
+		<posY>0.566327</posY>
+		<distortX>0</distortX>
+		<distortY>0</distortY>
+	</Kaleidoscope>
+<parameters/>
+		<strokeMaker>
+			<angle>6.45216</angle>
+			<speed>0.181633</speed>
+			<isPoly>0</isPoly>
+			<isMesh>1</isMesh>
+			<childLx>
+				<sineSwitch>0</sineSwitch>
+				<amp>-106.288</amp>
+			</childLx>
+			<childLy>
+				<sineSwitch>0</sineSwitch>
+				<amp>-16.4436</amp>
+			</childLy>
+			<childLz>
+				<sineSwitch>1</sineSwitch>
+				<amp>190.671</amp>
+			</childLz>
+			<childRx>
+				<sineSwitch>2</sineSwitch>
+				<amp>-68.3174</amp>
+			</childRx>
+			<childRy>
+				<sineSwitch>3</sineSwitch>
+				<amp>-128.916</amp>
+			</childRy>
+			<childRz>
+				<sineSwitch>0</sineSwitch>
+				<amp>40</amp>
+			</childRz>
+			<sphereRx>
+				<sineSwitch>0</sineSwitch>
+				<amp>0.01</amp>
+			</sphereRx>
+			<sphereRy>
+				<sineSwitch>0</sineSwitch>
+				<amp>0.01</amp>
+			</sphereRy>
+			<sphereRz>
+				<sineSwitch>0</sineSwitch>
+				<amp>2</amp>
+			</sphereRz>
+		<isDebug>0</isDebug>
+		<isManualRotation>1</isManualRotation>
+		<sphereAngle>152.449</sphereAngle>
+		</strokeMaker>
+</parameters>
