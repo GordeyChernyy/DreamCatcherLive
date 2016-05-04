@@ -37,7 +37,6 @@ private:
         DRAW_MOUSE
     };
     // Camera
-    ofVideoGrabber		simpleCam;
     bool				didCamUpdate;
     ftFbo				cameraFbo;
     ofParameter<bool>	doFlipCamera;
@@ -54,7 +53,7 @@ private:
     
     ftOpticalFlow		opticalFlow;
     ftVelocityMask		velocityMask;
-    ftFluidSimulation	fluidSimulation;
+
     ftParticleFlow		particleFlow;
     
     ftVelocitySpheres	velocityDots;
@@ -103,43 +102,52 @@ private:
     void				drawModeSetName(int& _value) ;
     ofParameter<string> drawName;
     
-    void				drawComposite()			{ drawComposite(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawComposite()			{ drawComposite(0, 0, w, h); }
     void				drawComposite(int _x, int _y, int _width, int _height);
-    void				drawParticles()			{ drawParticles(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawParticles()			{ drawParticles(0, 0, w, h); }
     void				drawParticles(int _x, int _y, int _width, int _height);
-    void				drawFluidFields()		{ drawFluidFields(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidFields()		{ drawFluidFields(0, 0, w, h); }
     void				drawFluidFields(int _x, int _y, int _width, int _height);
-    void				drawFluidDensity()		{ drawFluidDensity(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidDensity()		{ drawFluidDensity(0, 0, w, h); }
     void				drawFluidDensity(int _x, int _y, int _width, int _height);
-    void				drawFluidVelocity()		{ drawFluidVelocity(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidVelocity()		{ drawFluidVelocity(0, 0, w, h); }
     void				drawFluidVelocity(int _x, int _y, int _width, int _height);
-    void				drawFluidPressure()		{ drawFluidPressure(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidPressure()		{ drawFluidPressure(0, 0, w, h); }
     void				drawFluidPressure(int _x, int _y, int _width, int _height);
-    void				drawFluidTemperature()	{ drawFluidTemperature(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidTemperature()	{ drawFluidTemperature(0, 0, w, h); }
     void				drawFluidTemperature(int _x, int _y, int _width, int _height);
-    void				drawFluidDivergence()	{ drawFluidDivergence(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidDivergence()	{ drawFluidDivergence(0, 0, w, h); }
     void				drawFluidDivergence(int _x, int _y, int _width, int _height);
-    void				drawFluidVorticity()	{ drawFluidVorticity(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidVorticity()	{ drawFluidVorticity(0, 0, w, h); }
     void				drawFluidVorticity(int _x, int _y, int _width, int _height);
-    void				drawFluidBuoyance()		{ drawFluidBuoyance(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidBuoyance()		{ drawFluidBuoyance(0, 0, w, h); }
     void				drawFluidBuoyance(int _x, int _y, int _width, int _height);
-    void				drawFluidObstacle()		{ drawFluidObstacle(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawFluidObstacle()		{ drawFluidObstacle(0, 0, w, h); }
     void				drawFluidObstacle(int _x, int _y, int _width, int _height);
-    void				drawMask()				{ drawMask(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawMask()				{ drawMask(0, 0, w, h); }
     void				drawMask(int _x, int _y, int _width, int _height);
-    void				drawOpticalFlow()		{ drawOpticalFlow(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawOpticalFlow()		{ drawOpticalFlow(0, 0, w, h); }
     void				drawOpticalFlow(int _x, int _y, int _width, int _height);
-    void				drawSource()			{ drawSource(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawSource()			{ drawSource(0, 0, w, h); }
     void				drawSource(int _x, int _y, int _width, int _height);
-    void				drawMouseForces()		{ drawMouseForces(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawMouseForces()		{ drawMouseForces(0, 0, w, h); }
     void				drawMouseForces(int _x, int _y, int _width, int _height);
     
-    void				drawVelocityDots()		{ drawVelocityDots(0, 0, ofGetWindowWidth(), ofGetWindowHeight()); }
+    void				drawVelocityDots()		{ drawVelocityDots(0, 0, w, h); }
     void				drawVelocityDots(int _x, int _y, int _width, int _height);
     
 public:
-    void setup(int _w, int _h);
-    void update(ofxKinect *kinect);
+    ftFluidSimulation	fluidSimulation;
+    bool isTempFbo = false;
+    bool isKinect2 = false;
+    ofFbo *fboTemp;
+    void setTempFbo(ofFbo *fbo){
+        fboTemp = fbo;
+        isTempFbo = true;
+    };
+    void delFbo(){isTempFbo = false;};
+    void setup(int winW, int winH,  float scale);
+    void update(ofxKinect *kinect1, ofxKinect *kinect2);
     void drawGui();
 
     void draw();

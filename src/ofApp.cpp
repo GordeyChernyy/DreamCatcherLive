@@ -10,12 +10,29 @@ void ofApp::blendEnd(){
 }
 //--------------------------------------------------------------
 void ofApp::setup(){
+    
+    // audio
+    soundStream.printDeviceList();
+    //if you want to set a different device id
+    //soundStream.setDeviceID(0); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
+    int bufferSize = 8;
+    left.assign(bufferSize, 0.0);
+    right.assign(bufferSize, 0.0);
+    volHistory.assign(400, 0.0);
+    bufferCounter	= 0;
+    drawCounter		= 0;
+    smoothedVol     = 0.0;
+    scaledVol		= 0.0;
+    soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
 
     // kinect && flowtools
     kinect1.setRegistration(true);
-    kinect1.init();
-    kinect1.open();
-    flow.setup(win1W, win1H);
+    kinect1.init(false, false);
+    kinect1.open(0);
+    kinect2.setRegistration(true);
+    kinect2.init(false, false);
+    kinect2.open(1);
+    flow.setup(win1W, win1H, 1.5);
     
     ofSetWindowPosition(0, 0);
     winFbo.allocate(win1W, win1H);
@@ -39,10 +56,11 @@ void ofApp::setup(){
     movingFbo.setup();
     brushTr.setup();
     korg.setup();
-    light.loadImage("light.png");
+    light.load("light.png");
     
     stageParam.setName("stageParam");
     stageParam.add(isFlower.set("isFlower", true));
+    stageParam.add(maxVolume.set("maxVolume", 0.02, -0.0004, 0.3));
     stageParam.add(brushMode.set("brushMode", 0, 0, 2));
     stageParam.add(showInfo.set("showInfo", true));
     stageParam.add(lightPos.set("lightPos", ofVec2f(0, 0), ofVec2f(-500, -500), ofVec2f(500, 1000)));
@@ -60,6 +78,8 @@ void ofApp::setup(){
     stageParam.add(blendAlpha.set("blendAlpha", 1, 0, 1));
     stageParam.add(bgPos.set("bgPos", ofVec2f(0, 0), ofVec2f(-500, -500), ofVec2f(500, 1000)));
     stageParam.add(bgScale.set("bgScale", 1, 0.5, 5));
+    stageParam.add(farClip.set("farClip", 1000, 0, 12000));
+
 
     parameters.setName("parameters");
     parameters.add(stageParam);
@@ -97,7 +117,17 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    flow.update(&kinect1);
+    if(isOverload){
+        clearImage();
+    }else{
+        flow.delFbo();
+    }
+    // kinect && flow
+    kinect1.update();
+    kinect1.setDepthClipping(0, farClip);
+    kinect2.update();
+    kinect2.setDepthClipping(0, farClip);
+    flow.update(&kinect1, &kinect2);
 
     float smooth = 0.93;
     camRotX = camRotX*smooth + (1-smooth)*ofMap(korg.sliders[0], 0, 127, -180, 180);
@@ -194,7 +224,9 @@ void ofApp::draw(){
     if (enableBg) {
         bg.draw(bgPos->x, bgPos->y, bg.getWidth()*bgScale, bg.getHeight()*bgScale);
     }
-//    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+//    ofEnableAlphaBlending();
+    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    flow.draw();
     ofSetColor(255, 255);
     if(enableKaleidoscope){
         kaleidoscope.draw(win1W, win1H);
@@ -232,15 +264,15 @@ void ofApp::draw(){
     if(enableBg){
         blendEnd();
     }
+    ofDisableBlendMode();
     winFbo.end();
     
     
-    winFbo.draw(0, 0);
-    winFbo.draw(win1W, 0);
+    winFbo.draw(0, 0, win1W, win1H);
+    winFbo.draw(win1W, 0, win2W, win2H);
 
-    flow.draw();
-    flow.drawGui();
-//    ofDisableBlendMode();
+    
+    
     
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glEnable(GL_BLEND);
@@ -253,12 +285,14 @@ void ofApp::draw(){
         if (showInfo) {
             info();
         }
+        flow.drawGui();
     }
     ofFill();
     ofSetColor(pointerColor);
     ofCircle(mouseX, mouseY, pointerSize);
     glDisable(GL_BLEND);
     glPopAttrib();
+
     
 }
 void ofApp::info(){
@@ -311,6 +345,12 @@ void ofApp::info(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     switch (key) {
+        case 'u':
+            flow.isKinect2 ^= true;
+            break;
+        case 'c':
+            clearImage();
+            break;
         case 'n':
             flower.newShape();
             break;
@@ -390,7 +430,9 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+    if(key == 'c'){
+        flow.delFbo();
+    }
 }
 
 //--------------------------------------------------------------
@@ -479,6 +521,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+    volumeRunOnce = true;
     drag = true;
     meshBrush.onPress();
 }
@@ -494,6 +537,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
     ofSetWindowPosition(0, 0);
+    ofSetWindowShape(win1W+win2W, 873);
 //    brush.resize();
 //    kaleidoscope.resize();
 //    movingFbo.resize();
@@ -505,8 +549,51 @@ void ofApp::windowResized(int w, int h){
 void ofApp::gotMessage(ofMessage msg){
 
 }
-
+void ofApp::clearImage(){
+    flow.setTempFbo(&winFbo);
+    meshBrush.clear();
+    canvas.begin(); ofClear(0, 0); canvas.end();
+    brushTr.clear();
+    brush.clear();
+    movingFbo.resize();
+}
 //--------------------------------------------------------------
+void ofApp::audioIn(float * input, int bufferSize, int nChannels){
+//    cout <<  "input = " << input[0]  << endl;
+    if(input[8]>maxVolume){
+        cout << "overload!" << endl;
+        isOverload = true;
+    }else{
+        isOverload = false;
+    }
+//    float curVol = 0.0;
+//    
+//    // samples are "interleaved"
+//    int numCounted = 0;
+//    
+//    //lets go through each sample and calculate the root mean square which is a rough way to calculate volume
+//    for (int i = 0; i < bufferSize; i++){
+//        left[i]		= input[i*2]*0.5;
+//        right[i]	= input[i*2+1]*0.5;
+//        
+//        curVol += left[i] * left[i];
+//        curVol += right[i] * right[i];
+//        numCounted+=2;
+//    }
+//    
+//    //this is how we get the mean of rms :)
+//    curVol /= (float)numCounted;
+//    
+//    // this is how we get the root of rms :)
+//    curVol = sqrt( curVol );
+//    
+//    smoothedVol *= 0.93;
+//    smoothedVol += 0.07 * curVol;
+//    
+//    bufferCounter++;
+    
+}
+
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
     bg.loadImage(dragInfo.files[0]);
 }

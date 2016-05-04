@@ -190,7 +190,7 @@ public:
                         meshes[currMesh].removeVertex(j);
                         right.setPosition(0, 0, m.distance(h)/2);
                         ofFloatColor col = meshes[currMesh].getColor(j);
-                        col.setHueAngle(pressure*360);
+                        col.setHueAngle(pressure*100);
                         meshes[currMesh].addVertex(h);
                         meshes[currMesh].addColor(col);
                         
@@ -201,7 +201,7 @@ public:
             meshes[currMesh].addVertex(left.getGlobalPosition());
             meshes[currMesh].addColor(ofFloatColor(1, 0, 0, pressure));
             meshes[currMesh].addVertex(right.getGlobalPosition());
-            meshes[currMesh].addColor(ofFloatColor(0, 1, 0, pressure));
+            meshes[currMesh].addColor(ofFloatColor(1, 0, 0, pressure));
         }
  
     }

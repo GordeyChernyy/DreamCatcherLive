@@ -7,11 +7,11 @@
 //
 
 #include "OpticalFlow.hpp"
-void OpticalFlow::setup(int _w, int _h){
-    w = _w;
-    h = _h;
-    drawWidth = w;
-    drawHeight = h;
+void OpticalFlow::setup(int winW, int winH,  float scale){
+    w = winW;
+    h = winH;
+    drawWidth = w/scale;
+    drawHeight = h/scale;
     // process all but the density on 16th resolution
     flowWidth = drawWidth / 4;
     flowHeight = drawHeight / 4;
@@ -41,9 +41,8 @@ void OpticalFlow::setup(int _w, int _h){
     mouseForces.setup(flowWidth, flowHeight, drawWidth, drawHeight);
     
     // CAMERA
-    simpleCam.setup(640, 480, true);
     didCamUpdate = false;
-    cameraFbo.allocate(640, 480);
+    cameraFbo.allocate(flowWidth, flowHeight);
     cameraFbo.black();
     
     // GUI
@@ -51,19 +50,24 @@ void OpticalFlow::setup(int _w, int _h){
     
     lastTime = ofGetElapsedTimef();
 }
-void OpticalFlow::update(ofxKinect *kinect){
+void OpticalFlow::update(ofxKinect *kinect1, ofxKinect *kinect2){
     deltaTime = ofGetElapsedTimef() - lastTime;
     lastTime = ofGetElapsedTimef();
     
-    simpleCam.update();
     
     cameraFbo.begin();
     ofClear(0, 0);
-    ofSetColor(ofNoise(ofGetElapsedTimef()*2+1000)*500, ofNoise(ofGetElapsedTimef()*2+2000)*255, ofNoise(ofGetElapsedTimef()*2)*500);
-    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    kinect->drawDepth(0, 0, cameraFbo.getWidth(), cameraFbo.getHeight());
-    kinect->drawDepth(300, 0, cameraFbo.getWidth(), cameraFbo.getHeight());
-    ofDisableBlendMode();
+    if(isTempFbo){
+        ofSetColor(255);
+        fboTemp->draw(0, 0, flowWidth, flowHeight);
+    }else{
+        ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+        ofSetColor(255, ofNoise(ofGetElapsedTimef()*2)*255, 0);
+        kinect1->drawDepth(0, 0, flowWidth, flowHeight*1.33);
+        if(isKinect2){
+            kinect2->drawDepth(0, 0, flowWidth,flowHeight*1.33);
+        }
+    }
     cameraFbo.end();
     opticalFlow.setSource(cameraFbo.getTexture());
     opticalFlow.update();
@@ -71,26 +75,6 @@ void OpticalFlow::update(ofxKinect *kinect){
     velocityMask.setVelocity(opticalFlow.getOpticalFlow());
     velocityMask.update();
     
-    if (simpleCam.isFrameNew()) {
-        ofPushStyle();
-        ofEnableBlendMode(OF_BLENDMODE_DISABLED);
-        
-        //        kinect.drawDepth(0, 0, ofGetWidth(), ofGetHeight());
-        //        if (doFlipCamera)
-        //            simpleCam.draw(cameraFbo.getWidth(), 0, -cameraFbo.getWidth(), cameraFbo.getHeight());  // Flip Horizontal
-        //        else
-        //            simpleCam.draw(0, 0, cameraFbo.getWidth(), cameraFbo.getHeight());
-        //        cameraFbo.end();
-        ofPopStyle();
-        //        kinect.getDepthTexture()
-        
-        
-        // opticalFlow.update(deltaTime);
-        // use internal deltatime instead
-        
-        
-        
-    }
     
     
     fluidSimulation.addVelocity(opticalFlow.getOpticalFlowDecay());
@@ -246,16 +230,18 @@ void OpticalFlow::setupGui() {
     gui.add(velocityDots.parameters);
     
     // if the settings file is not present the parameters will not be set during this setup
-    if (!ofFile("settings.xml"))
-        gui.saveToFile("settings.xml");
+    if (!ofFile("OpticalFlowSettings.xml"))
+        gui.saveToFile("OpticalFlowSettings.xml");
     
-    gui.loadFromFile("settings.xml");
+    gui.loadFromFile("OpticalFlowSettings.xml");
     
     gui.minimizeAll();
     toggleGuiDraw = true;
+    gui.setPosition(400, 400);
     
 }
 void OpticalFlow::draw(){
+    ofSetColor(255, 255);
     ofClear(0,0);
     if (doDrawCamBackground.get())
         drawSource();

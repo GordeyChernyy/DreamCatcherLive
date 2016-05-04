@@ -30,7 +30,7 @@ void main( void )
 
     for(int i=0;i<int(iteration);i++)
     {
-        rv.x=rand(r);
+        rv.x=rand(r)/10.;
         rv.y=rand(r);
         c+=texture2DRect(u_tex_unit0, uv-rv*r*blursize)/iteration;
     }

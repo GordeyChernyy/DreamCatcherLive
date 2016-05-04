@@ -221,6 +221,10 @@
 		722493F61CD5AD5F00F61E39 /* ftVTFieldShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ftVTFieldShader.h; sourceTree = "<group>"; };
 		722494371CD6E9FE00F61E39 /* OpticalFlow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpticalFlow.cpp; sourceTree = "<group>"; };
 		722494381CD6E9FE00F61E39 /* OpticalFlow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpticalFlow.hpp; sourceTree = "<group>"; };
+		72880FFD1CD8F56400A57C78 /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = blur.frag; path = bin/data/meshBrushShader/blur.frag; sourceTree = SOURCE_ROOT; };
+		72880FFE1CD8F56400A57C78 /* blur.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = blur.vert; path = bin/data/meshBrushShader/blur.vert; sourceTree = SOURCE_ROOT; };
+		72880FFF1CD8F56400A57C78 /* livecoding.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = livecoding.frag; path = bin/data/meshBrushShader/livecoding.frag; sourceTree = SOURCE_ROOT; };
+		728810001CD8F56400A57C78 /* livecoding.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = livecoding.vert; path = bin/data/meshBrushShader/livecoding.vert; sourceTree = SOURCE_ROOT; };
 		7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxKinect.cpp; path = ../../../addons/ofxKinect/src/ofxKinect.cpp; sourceTree = SOURCE_ROOT; };
 		81436E53CC4A77E326F659C3 /* ofxMidiOut.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMidiOut.h; path = ../../../addons/ofxMidi/src/ofxMidiOut.h; sourceTree = SOURCE_ROOT; };
 		81AC32CCCB56FAABA3E1BDE0 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<group>"; };
@@ -700,6 +704,10 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				72880FFD1CD8F56400A57C78 /* blur.frag */,
+				72880FFE1CD8F56400A57C78 /* blur.vert */,
+				72880FFF1CD8F56400A57C78 /* livecoding.frag */,
+				728810001CD8F56400A57C78 /* livecoding.vert */,
 				722494371CD6E9FE00F61E39 /* OpticalFlow.cpp */,
 				722494381CD6E9FE00F61E39 /* OpticalFlow.hpp */,
 				722493721CD5ACC400F61E39 /* DreamBrush.cpp */,
@@ -1104,6 +1112,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",
@@ -1161,6 +1170,7 @@
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",

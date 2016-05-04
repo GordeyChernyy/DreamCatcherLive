@@ -32,11 +32,27 @@ public:
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
+    void clearImage();
+    
+    // audio
+    void audioIn(float * input, int bufferSize, int nChannels);
+    vector <float> left;
+    vector <float> right;
+    vector <float> volHistory;
+    int 	bufferCounter;
+    int 	drawCounter;
+    float smoothedVol;
+    float scaledVol;
+    ofSoundStream soundStream;
+    ofParameter<float> maxVolume;
+    bool volumeRunOnce = true;
+    bool isOverload = false;
+    
     // optical flow && kinect
     OpticalFlow flow;
     ofxKinect kinect1;
     ofxKinect kinect2;
+    ofParameter<float> farClip;
     
     void tabletMoved(TabletData &data);
     strokeMaker flower;
@@ -76,8 +92,8 @@ public:
     int winWhigh = 1440;
     int winHhigh = 893;
 
-    int win1W = 1440;
-    int win1H = 893;
+    int win1W = 1280;
+    int win1H = 720;
     
     int win2W = 1280;
     int win2H = 720; // 698
