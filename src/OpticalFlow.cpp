@@ -63,7 +63,9 @@ void OpticalFlow::update(ofxKinect *kinect1, ofxKinect *kinect2){
     }else{
         ofEnableBlendMode(OF_BLENDMODE_SCREEN);
         ofSetColor(255, ofNoise(ofGetElapsedTimef()*2)*255, 0);
-        kinect1->drawDepth(0, 0, flowWidth, flowHeight*1.33);
+        if(isKinect1){
+            kinect1->drawDepth(0, 0, flowWidth, flowHeight*1.33);
+        }
         if(isKinect2){
             kinect2->drawDepth(0, 0, flowWidth,flowHeight*1.33);
         }
@@ -81,7 +83,7 @@ void OpticalFlow::update(ofxKinect *kinect1, ofxKinect *kinect2){
     fluidSimulation.addDensity(velocityMask.getColorMask());
     fluidSimulation.addTemperature(velocityMask.getLuminanceMask());
     
-    mouseForces.update(deltaTime);
+//    mouseForces.update(deltaTime);
     
     for (int i=0; i<mouseForces.getNumForces(); i++) {
         if (mouseForces.didChange(i)) {

@@ -53,6 +53,7 @@ public:
     ofxKinect kinect1;
     ofxKinect kinect2;
     ofParameter<float> farClip;
+    ofParameter<float> farClip2;
     
     void tabletMoved(TabletData &data);
     strokeMaker flower;

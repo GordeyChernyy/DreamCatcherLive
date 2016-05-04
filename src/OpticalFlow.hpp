@@ -140,6 +140,7 @@ public:
     ftFluidSimulation	fluidSimulation;
     bool isTempFbo = false;
     bool isKinect2 = false;
+    bool isKinect1 = true;
     ofFbo *fboTemp;
     void setTempFbo(ofFbo *fbo){
         fboTemp = fbo;

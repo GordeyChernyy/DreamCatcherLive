@@ -61,6 +61,9 @@ void ofApp::setup(){
     stageParam.setName("stageParam");
     stageParam.add(isFlower.set("isFlower", true));
     stageParam.add(maxVolume.set("maxVolume", 0.02, -0.0004, 0.3));
+    stageParam.add(farClip.set("farClip", 1000, 0, 12000));
+    stageParam.add(farClip2.set("farClip", 1000, 0, 12000));
+
     stageParam.add(brushMode.set("brushMode", 0, 0, 2));
     stageParam.add(showInfo.set("showInfo", true));
     stageParam.add(lightPos.set("lightPos", ofVec2f(0, 0), ofVec2f(-500, -500), ofVec2f(500, 1000)));
@@ -78,7 +81,6 @@ void ofApp::setup(){
     stageParam.add(blendAlpha.set("blendAlpha", 1, 0, 1));
     stageParam.add(bgPos.set("bgPos", ofVec2f(0, 0), ofVec2f(-500, -500), ofVec2f(500, 1000)));
     stageParam.add(bgScale.set("bgScale", 1, 0.5, 5));
-    stageParam.add(farClip.set("farClip", 1000, 0, 12000));
 
 
     parameters.setName("parameters");
@@ -347,6 +349,12 @@ void ofApp::keyPressed(int key){
     switch (key) {
         case 'u':
             flow.isKinect2 ^= true;
+            break;
+        case 'y':
+            flow.isKinect1 ^= true;
+            break;
+        case 't':
+            flow.keyPressed('C');
             break;
         case 'c':
             clearImage();
