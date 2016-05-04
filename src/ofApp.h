@@ -34,6 +34,8 @@ public:
 		void gotMessage(ofMessage msg);
     void clearImage();
     
+    // pressure
+    float pressure;
     // audio
     void audioIn(float * input, int bufferSize, int nChannels);
     vector <float> left;
@@ -94,10 +96,10 @@ public:
     int winHhigh = 893;
 
     int win1W = 1280;
-    int win1H = 720;
+    int win1H = 800;
     
     int win2W = 1280;
-    int win2H = 720; // 698
+    int win2H = 800; // 698
 
     
     GLFWwindow *mainWindow, *auxWindow;

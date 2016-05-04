@@ -203,7 +203,7 @@ public:
             meshes[currMesh].addVertex(right.getGlobalPosition());
             meshes[currMesh].addColor(ofFloatColor(1, 0, 0, pressure));
         }
- 
+        ofSetColor(255, 255);
     }
     void onRelease(){
         if(isTriangle){

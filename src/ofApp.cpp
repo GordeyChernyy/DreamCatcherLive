@@ -34,7 +34,7 @@ void ofApp::setup(){
     kinect2.open(1);
     flow.setup(win1W, win1H, 1.5);
     
-    ofSetWindowPosition(0, 0);
+//    ofSetWindowPosition(0, 0);
     winFbo.allocate(win1W, win1H);
     winFbo.begin(); ofClear(0, 0); winFbo.end();
     
@@ -60,7 +60,7 @@ void ofApp::setup(){
     
     stageParam.setName("stageParam");
     stageParam.add(isFlower.set("isFlower", true));
-    stageParam.add(maxVolume.set("maxVolume", 0.02, -0.0004, 0.3));
+    stageParam.add(maxVolume.set("maxVolume", 0.02, -0.0004, 1.9));
     stageParam.add(farClip.set("farClip", 1000, 0, 12000));
     stageParam.add(farClip2.set("farClip", 1000, 0, 12000));
 
@@ -236,7 +236,7 @@ void ofApp::draw(){
         if (enableMovingFbo) {
             movingFbo.draw(win1W, win1H);
         }else{
-            canvas.draw(0, 0);               // Canvas can accept graphics from all type of static brushes
+            canvas.draw(0, 0, win1W, win1H);               // Canvas can accept graphics from all type of static brushes
             switch (brushMode) {             // Draw any elements out of canvas on top
                 case 0:                      // Dream Catcher Brush
                     break;
@@ -448,11 +448,12 @@ void ofApp::mouseMoved(int x, int y ){
     meshBrush.onMove(x, y);
 }
 void ofApp::tabletMoved(TabletData &data) {
+    pressure = data.pressure;
 //    cout <<  "data.pressure " << data.pressure << endl;
     if (drag && !enableMouse){
-        float penX = data.abs_screen[0]*ofGetScreenWidth() - ofGetWindowPositionX();
+        float penX = data.abs_screen[0]*win1W - ofGetWindowPositionX();
         float penYinv = ofMap(data.abs_screen[1], 0, 1, 1, 0);
-        float penY = penYinv*ofGetScreenHeight() - ofGetWindowPositionY();
+        float penY = penYinv*win1H - ofGetWindowPositionY();
         float p = data.pressure;
         if(enableMovingFbo){
             int index = movingFbo.currentIndex;
@@ -503,11 +504,14 @@ void ofApp::mouseDragged(int x, int y, int button){
         if(enableMovingFbo){
             int index = movingFbo.currentIndex;
             switch (brushMode) {
-                case 0:
-                    brush.updateCanvas(movingFbo.frames[index], x, y, 1.);
+                case 0: // Dream Catcher Brush
+                    brush.updateCanvas(movingFbo.frames[index], mouseX, mouseY, pressure);
                     break;
-                case 1:
-                    brushTr.updateCanvas(movingFbo.frames[index], x, y, brush.activeColor);
+                case 1: // Triangle Brush
+                    brushTr.updateCanvas(movingFbo.frames[index], mouseX, mouseY, brush.activeColor);
+                    break;
+                case 2: // Triangle Brush
+                    meshBrush.onDrag(mouseX, mouseY, pressure);
                     break;
                 default:
                     break;
@@ -515,15 +519,19 @@ void ofApp::mouseDragged(int x, int y, int button){
         }else{
             switch (brushMode) {
                 case 0:
-                    brush.updateCanvas(canvas, x, y, 1.);
+                    brush.updateCanvas(canvas, mouseX, mouseY, pressure);
                     break;
                 case 1:
-                    brushTr.updateCanvas(canvas, x, y, brush.activeColor);
+                    brushTr.updateCanvas(canvas, mouseX, mouseY, brush.activeColor);
+                    break;
+                case 2: // Triangle Brush
+                    meshBrush.onDrag(mouseX, mouseY, pressure);
                     break;
                 default:
                     break;
             }
         }
+        brushTr.setPressure(pressure);
     }
 }
 
@@ -544,13 +552,8 @@ void ofApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    ofSetWindowPosition(0, 0);
-    ofSetWindowShape(win1W+win2W, 873);
-//    brush.resize();
-//    kaleidoscope.resize();
-//    movingFbo.resize();
-//    canvas.allocate(ofGetWidth(), ofGetHeight());
-//    canvas.begin(); ofClear(0, 0); canvas.end();
+//    ofSetWindowPosition(0, 0);
+//    ofSetWindowShape(win1W+win2W, 873);
 }
 
 //--------------------------------------------------------------
@@ -608,4 +611,5 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 void ofApp::exit(){
     korg.exit();
     kinect1.close();
+    kinect2.close();
 }

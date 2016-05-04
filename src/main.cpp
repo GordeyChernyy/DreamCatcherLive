@@ -13,10 +13,20 @@ int main(){
     int win2W = 1280;
     int win2H = 720; // 698
     
-	ofSetupOpenGL(win1W+win2W,873,OF_WINDOW);			// <-------- setup the GL context
-
-	// this kicks off the running of my app
-	// can be OF_WINDOW or OF_FULLSCREEN
-	// pass in width and height too:
-	ofRunApp(new ofApp());
+    ofGLFWWindowSettings settings;
+    
+    settings.width = win1W+win2W; // 1280; // 
+    settings.height = 800;
+    settings.setPosition(ofVec2f(0,0)); //1440, 0
+    settings.resizable = true;
+//    settings.decorated = false;
+    
+    shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings);
+    
+    shared_ptr<ofApp> mainApp(new ofApp);
+    // this kicks off the running of my app
+    // can be OF_WINDOW or OF_FULLSCREEN
+    // pass in width and height too:
+    ofRunApp(mainWindow, mainApp);
+    ofRunMainLoop();
 }
