@@ -1,6 +1,6 @@
 <parameters>
 	<stageParam>
-		<brushMode>0</brushMode>
+		<brushMode>2</brushMode>
 		<showInfo>0</showInfo>
 		<enableMouse>0</enableMouse>
 		<enableKaleidoscope>0</enableKaleidoscope>
@@ -9,7 +9,7 @@
 		<pointerColor>255, 255, 255, 255</pointerColor>
 	<lightPos>0, 0</lightPos>
 		<lightSmooth>0.02</lightSmooth>
-		<lightOpacity>0</lightOpacity>
+		<lightOpacity>255</lightOpacity>
 		<lightScale>0.02</lightScale>
 		<enableLight>1</enableLight>
 	<aNum>6</aNum>
@@ -18,8 +18,8 @@
 	<bgPos>-77.8842, 0.416504</bgPos>
 		<bgScale>1.21173</bgScale>
 	<isFlower>0</isFlower>
-	<farClip>4408.16</farClip>
-	<maxVolume>0.3</maxVolume>
+	<farClip>3673.47</farClip>
+	<maxVolume>0.978888</maxVolume>
 	</stageParam>
 	<DreamBrush>
 		<historyMax>554</historyMax>

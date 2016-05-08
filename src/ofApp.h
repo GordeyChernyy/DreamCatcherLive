@@ -16,6 +16,7 @@
 #include "OpticalFlow.hpp"
 #include "ofxKinect.h"
 
+
 class ofApp : public ofBaseApp{
 public:
 		void setup();

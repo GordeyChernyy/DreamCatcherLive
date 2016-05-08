@@ -62,7 +62,7 @@ void ofApp::setup(){
     stageParam.add(isFlower.set("isFlower", true));
     stageParam.add(maxVolume.set("maxVolume", 0.02, -0.0004, 1.9));
     stageParam.add(farClip.set("farClip", 1000, 0, 12000));
-    stageParam.add(farClip2.set("farClip", 1000, 0, 12000));
+    stageParam.add(farClip2.set("farClip2", 1000, 0, 12000));
 
     stageParam.add(brushMode.set("brushMode", 0, 0, 2));
     stageParam.add(showInfo.set("showInfo", true));
@@ -128,7 +128,7 @@ void ofApp::update(){
     kinect1.update();
     kinect1.setDepthClipping(0, farClip);
     kinect2.update();
-    kinect2.setDepthClipping(0, farClip);
+    kinect2.setDepthClipping(0, farClip2);
     flow.update(&kinect1, &kinect2);
 
     float smooth = 0.93;
@@ -373,6 +373,7 @@ void ofApp::keyPressed(int key){
             break;
         case '0':
             ofSetWindowPosition(0, 0);
+            ofSetWindowShape(win1W+win2W, 800);
             break;
         case '1':
             brush.changeColor(0);

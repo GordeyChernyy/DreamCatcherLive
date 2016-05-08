@@ -15,11 +15,11 @@ void Korg::setup() {
     // print input ports to console
 	midiIn.listPorts(); // via instance
 	midiOut.listPorts(); // via instance
-		//ofxMidiIn::listPorts(); // via static as well
+//		ofxMidiIn::listPorts(); // via static as well
 	
 	// open port by number (you may need to change this)
-	midiIn.openPort(2);
-	midiOut.openPort(2);	// by number
+	midiIn.openPort(5);
+	midiOut.openPort(5);	// by number
 		//midiIn.openPort("IAC Pure Data In");	// by name
 	//midiIn.openVirtualPort("ofxMidiIn Input");	// open a virtual port
 	
