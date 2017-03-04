@@ -8,6 +8,15 @@ void ofApp::blendBegin(){
 void ofApp::blendEnd(){
     glDisable(GL_BLEND);
 }
+void ofApp::saveImage() {
+
+    // get the raw buffer from ofImage
+    
+    
+    
+    
+    imgSaver.saveThreaded(canvas);
+}
 //--------------------------------------------------------------
 void ofApp::setup(){
     
@@ -110,26 +119,30 @@ void ofApp::setup(){
     drag = false;
     currentParameter = 0;
     showGui = true;
-    canvas.allocate(win1W, win1H);
+    canvas.allocate(canvasWidth, canvasHight);
     canvas.begin(); ofClear(0, 0); canvas.end();
     font.loadFont("Arial.ttf", 12);
     bg.loadImage("/Users/gordey/Projects/LaurynHill/lauryn.jpg");
+    
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
     if(isOverload){
         clearImage();
     }else{
         flow.delFbo();
     }
     // kinect && flow
+    
+    /*
     kinect1.update();
     kinect1.setDepthClipping(0, farClip);
     kinect2.update();
     kinect2.setDepthClipping(0, farClip2);
     flow.update(&kinect1, &kinect2);
+     */
 
     float smooth = 0.93;
     camRotX = camRotX*smooth + (1-smooth)*ofMap(korg.sliders[0], 0, 127, -180, 180);
@@ -182,7 +195,7 @@ void ofApp::update(){
     canvas.begin();
     ofEnableAlphaBlending();
     ofSetColor(0, fade);
-    ofRect(0, 0, win1W, win1H);
+    ofRect(0, 0, canvasWidth, canvasHight);
     ofDisableAlphaBlending();
     canvas.end();
     
@@ -210,6 +223,9 @@ void ofApp::update(){
             kaleidoscope.update(canvas, mouseX, mouseY);
         }
     }
+    if(isRender){
+        saveImage();
+    }
 }
 
 //--------------------------------------------------------------
@@ -228,7 +244,7 @@ void ofApp::draw(){
     }
 //    ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    flow.draw();
+    // flow.draw();
     ofSetColor(255, 255);
     if(enableKaleidoscope){
         kaleidoscope.draw(win1W, win1H);
@@ -236,7 +252,10 @@ void ofApp::draw(){
         if (enableMovingFbo) {
             movingFbo.draw(win1W, win1H);
         }else{
-            canvas.draw(0, 0, win1W, win1H);               // Canvas can accept graphics from all type of static brushes
+            int w = win1W;
+            float a = (float)canvasHight/(float)canvasWidth;
+            float h = win1W*a;
+            canvas.draw(0, 0, w, h);               // Canvas can accept graphics from all type of static brushes
             switch (brushMode) {             // Draw any elements out of canvas on top
                 case 0:                      // Dream Catcher Brush
                     break;
@@ -295,7 +314,11 @@ void ofApp::draw(){
     glDisable(GL_BLEND);
     glPopAttrib();
 
-    
+    string m;
+    m = isRender ? "Recording..." : "";
+    m.append("\n");
+    m.append(ofToString(ofGetFrameRate()));
+    ofDrawBitmapString(m, 20, 20);
 }
 void ofApp::info(){
     string b = "";
@@ -346,6 +369,9 @@ void ofApp::info(){
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    if(key == 'r'){
+        isRender ^= true;
+    }
     switch (key) {
         case 'u':
             flow.isKinect2 ^= true;
@@ -433,17 +459,19 @@ void ofApp::keyPressed(int key){
             enableBg ^=true;
             break;
         }
+        
 
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
     if(key == 'c'){
         flow.delFbo();
     }
+    if(key == 's'){
+        saveImage();
+    }
 }
-
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
     meshBrush.onMove(x, y);
@@ -473,9 +501,12 @@ void ofApp::tabletMoved(TabletData &data) {
             }
         }else{
             switch (brushMode) {
-                case 0:
-                    brush.updateCanvas(canvas, penX, penY, p);
+                case 0:{
+                    float px = ofMap(penX, 0, win1W, 0, canvasWidth);
+                    float py = ofMap(penY, 0, win1W, 0, canvasWidth);
+                    brush.updateCanvas(canvas, px, py, p);
                     break;
+                }
                 case 1:
                     brushTr.updateCanvas(canvas, penX, penY, brush.activeColor);
                     break;
@@ -535,14 +566,12 @@ void ofApp::mouseDragged(int x, int y, int button){
         brushTr.setPressure(pressure);
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     volumeRunOnce = true;
     drag = true;
     meshBrush.onPress();
 }
-
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
     brushTr.clearHistory();
@@ -550,13 +579,11 @@ void ofApp::mouseReleased(int x, int y, int button){
     brush.clearHistory();
     meshBrush.onRelease();
 }
-
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 //    ofSetWindowPosition(0, 0);
 //    ofSetWindowShape(win1W+win2W, 873);
 }
-
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
 
@@ -605,8 +632,7 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
 //    bufferCounter++;
     
 }
-
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
     bg.loadImage(dragInfo.files[0]);
 }
 void ofApp::exit(){

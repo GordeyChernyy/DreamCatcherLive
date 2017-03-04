@@ -11,7 +11,7 @@ void DreamBrush::setup(){
     parameters.setName("DreamBrush");
     parameters.add(historyMax.set("historyMax", 2000, 100, 10000));
     parameters.add(brushType.set("type line", 0, 0, 1));
-    parameters.add(size.set("size", 300, 0, 800));
+    parameters.add(size.set("size", 300, 0, 3000));
     parameters.add(opacity.set("opacity", 20, 0, 255));
     parameters.add(lineWidth.set("lineWidth", 0.2, 0., 5.));
     parameters.add(swatch.set("swatch", 0, 0, 12));

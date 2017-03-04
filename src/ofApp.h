@@ -15,7 +15,7 @@
 #include "ofxGLFog.h"
 #include "OpticalFlow.hpp"
 #include "ofxKinect.h"
-
+#include "ofxThreadedImageSaver.hpp"
 
 class ofApp : public ofBaseApp{
 public:
@@ -33,6 +33,8 @@ public:
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    void saveImage();
     void clearImage();
     
     // pressure
@@ -96,8 +98,11 @@ public:
     int winWhigh = 1440;
     int winHhigh = 893;
 
-    int win1W = 1280;
-    int win1H = 800;
+    int win1W = 1440;
+    int win1H = 900;
+    
+    int canvasWidth = 6480;
+    int canvasHight = 1080;
     
     int win2W = 1280;
     int win2H = 800; // 698
@@ -180,5 +185,8 @@ public:
         GL_CONSTANT_ALPHA,
         GL_ONE_MINUS_CONSTANT_ALPHA
     };
-
+    
+    ofxThreadedImageSaver imgSaver;
+    ofImage img;
+    bool isRender = false;
 };
