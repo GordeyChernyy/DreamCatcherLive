@@ -38,7 +38,7 @@ void ofApp::setup(){
     winFbo.allocate(win1W, win1H);
     winFbo.begin(); ofClear(0, 0); winFbo.end();
     
-    fog.setup("fog");
+    //fog.setup("fog");
     fog.gui.setPosition(100, 20);
     flower.setup();
     // cam setup
