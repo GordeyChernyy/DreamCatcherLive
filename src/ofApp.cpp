@@ -13,13 +13,49 @@ void ofApp::saveImage() {
     // get the raw buffer from ofImage
     
     
+    ofFbo fbo;
+    fbo.allocate(canvasWidth, canvasHight);
     
+    fbo.begin();
+    ofClear(0);
+    canvas.draw(0, 0, canvasWidth, canvasHight);
+    fbo.end();
     
-    imgSaver.saveThreaded(canvas);
+    fbos.push_back(fbo);
+    
+}
+void ofApp::writeToDisk(){
+    
+    int counter = 0;
+    
+    string folderName = ofSystemTextBoxDialog("folder name: ");
+    for(auto &f : fbos){
+        
+        ofPixels pix;
+        f.readToPixels(pix);
+        
+        std::stringstream buffer;
+        buffer << setfill('0') << setw(8) << counter;
+        string name = folderName + "/frame_" + buffer.str() + ".png";
+        
+        ofImage img;
+        img.setFromPixels(pix);
+        
+        img.save(name);
+        
+        counter++;
+    }
+    
+    fbos.clear();
+    
 }
 //--------------------------------------------------------------
 void ofApp::setup(){
+    float sf = 0.3;
+    canvasWidth *= sf;
+    canvasHight *= sf;
     
+    ofLog() << "canvasWidth : " <<canvasWidth;
     // audio
     soundStream.printDeviceList();
     //if you want to set a different device id
@@ -129,6 +165,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    ofHideCursor();
+    
     if(isOverload){
         clearImage();
     }else{
@@ -310,7 +348,7 @@ void ofApp::draw(){
     }
     ofFill();
     ofSetColor(pointerColor);
-    ofCircle(mouseX, mouseY, pointerSize);
+    //ofCircle(mouseX, mouseY, pointerSize);
     glDisable(GL_BLEND);
     glPopAttrib();
 
@@ -371,6 +409,9 @@ void ofApp::info(){
 void ofApp::keyPressed(int key){
     if(key == 'r'){
         isRender ^= true;
+    }
+    if(key == 'd'){
+        writeToDisk();
     }
     switch (key) {
         case 'u':

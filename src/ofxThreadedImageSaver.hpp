@@ -14,9 +14,7 @@
 class ofxThreadedImageSaver : public ofThread, public ofImage {
 public:
     string fileName;
-    ofFbo fbo;
     int counter;
-    ofImage img;
     
     ofxThreadedImageSaver(){
         counter=0;
@@ -25,6 +23,7 @@ public:
     void threadedFunction() {
         if(lock()) {
             save(fileName);
+            counter++;
             unlock();
         } else {
             printf("ofxThreadedImageSaver - cannot save %s cos I'm locked", fileName.c_str());
@@ -36,9 +35,8 @@ public:
         
         std::stringstream buffer;
         buffer << setfill('0') << setw(8) << counter;
-        string name = "render/frame_" + buffer.str() + ".png";
+        string name = "render/frame_" + buffer.str() + ".bmp";
         
-        this->fbo = fbo;
         this->fileName = name;
         
         ofPixels pix;

@@ -189,4 +189,7 @@ public:
     ofxThreadedImageSaver imgSaver;
     ofImage img;
     bool isRender = false;
+    
+    vector<ofFbo> fbos;
+    void writeToDisk();
 };
