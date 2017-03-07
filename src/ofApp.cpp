@@ -36,7 +36,7 @@ void ofApp::writeToDisk(){
         
         std::stringstream buffer;
         buffer << setfill('0') << setw(8) << counter;
-        string name = folderName + "/frame_" + buffer.str() + ".png";
+        string name = "render/" +folderName + "/frame_" + buffer.str() + ".png";
         
         ofImage img;
         img.setFromPixels(pix);
