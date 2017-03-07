@@ -193,4 +193,6 @@ public:
     
     vector<ofFbo> fbos;
     void writeToDisk();
+    
+    ofSoundPlayer sound;
 };

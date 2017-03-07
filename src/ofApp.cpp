@@ -47,15 +47,19 @@ void ofApp::writeToDisk(){
     }
     
     fbos.clear();
+    sound.play();
     
 }
 //--------------------------------------------------------------
 void ofApp::setup(){
+    
+    
     float sf = 0.3;
     canvasWidth *= sf;
     canvasHight *= sf;
     
     ofLog() << "canvasWidth : " <<canvasWidth;
+
     // audio
     soundStream.printDeviceList();
     //if you want to set a different device id
@@ -69,6 +73,7 @@ void ofApp::setup(){
     smoothedVol     = 0.0;
     scaledVol		= 0.0;
     soundStream.setup(this, 0, 2, 44100, bufferSize, 4);
+    sound.load("sound.wav");
 
     // kinect && flowtools
     kinect1.setRegistration(true);
