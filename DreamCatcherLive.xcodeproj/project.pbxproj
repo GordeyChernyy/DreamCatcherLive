@@ -44,6 +44,7 @@
 		722493FC1CD5AD5F00F61E39 /* ftParticleFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 722493DB1CD5AD5F00F61E39 /* ftParticleFlow.cpp */; };
 		722493FD1CD5AD5F00F61E39 /* ftAverageVelocity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 722493DF1CD5AD5F00F61E39 /* ftAverageVelocity.cpp */; };
 		722494391CD6E9FE00F61E39 /* OpticalFlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 722494371CD6E9FE00F61E39 /* OpticalFlow.cpp */; };
+		72F86B0A1E6F022000E957D0 /* ofxThreadedImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72F86B081E6F022000E957D0 /* ofxThreadedImageLoader.cpp */; };
 		7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01438542609FC64F1EC60EEB /* ofxKinectExtras.cpp */; };
 		7F6189CF4D164B641A381396 /* ofxGLFog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22468013779FA3895CFD54E6 /* ofxGLFog.cpp */; };
 		83D9F930112E0944444124EE /* ofxMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04F77E5C73A62E2E77C78EC6 /* ofxMidiOut.cpp */; };
@@ -226,6 +227,9 @@
 		72880FFE1CD8F56400A57C78 /* blur.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = blur.vert; path = bin/data/meshBrushShader/blur.vert; sourceTree = SOURCE_ROOT; };
 		72880FFF1CD8F56400A57C78 /* livecoding.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = livecoding.frag; path = bin/data/meshBrushShader/livecoding.frag; sourceTree = SOURCE_ROOT; };
 		728810001CD8F56400A57C78 /* livecoding.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = livecoding.vert; path = bin/data/meshBrushShader/livecoding.vert; sourceTree = SOURCE_ROOT; };
+		72F86B081E6F022000E957D0 /* ofxThreadedImageLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxThreadedImageLoader.cpp; sourceTree = "<group>"; };
+		72F86B091E6F022000E957D0 /* ofxThreadedImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreadedImageLoader.h; sourceTree = "<group>"; };
+		72F86B0D1E6F027100E957D0 /* ofxImageSequenceRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxImageSequenceRecorder.h; sourceTree = "<group>"; };
 		7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxKinect.cpp; path = ../../../addons/ofxKinect/src/ofxKinect.cpp; sourceTree = SOURCE_ROOT; };
 		81436E53CC4A77E326F659C3 /* ofxMidiOut.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMidiOut.h; path = ../../../addons/ofxMidi/src/ofxMidiOut.h; sourceTree = SOURCE_ROOT; };
 		81AC32CCCB56FAABA3E1BDE0 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<group>"; };
@@ -596,6 +600,41 @@
 			path = visualisation;
 			sourceTree = "<group>";
 		};
+		72F86B061E6F022000E957D0 /* ofxThreadedImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				72F86B071E6F022000E957D0 /* src */,
+			);
+			name = ofxThreadedImageLoader;
+			sourceTree = "<group>";
+		};
+		72F86B071E6F022000E957D0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				72F86B081E6F022000E957D0 /* ofxThreadedImageLoader.cpp */,
+				72F86B091E6F022000E957D0 /* ofxThreadedImageLoader.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxThreadedImageLoader/src;
+			sourceTree = "<group>";
+		};
+		72F86B0B1E6F027100E957D0 /* ofxImageSequenceRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				72F86B0C1E6F027100E957D0 /* src */,
+			);
+			name = ofxImageSequenceRecorder;
+			sourceTree = "<group>";
+		};
+		72F86B0C1E6F027100E957D0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				72F86B0D1E6F027100E957D0 /* ofxImageSequenceRecorder.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxImageSequenceRecorder/src;
+			sourceTree = "<group>";
+		};
 		74F5BA3AC9F2476307368B8B /* ofxGLFog */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +715,8 @@
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				722493931CD5AD5600F61E39 /* ofxGui */,
 				722493AE1CD5AD5F00F61E39 /* ofxFlowTools */,
+				72F86B061E6F022000E957D0 /* ofxThreadedImageLoader */,
+				72F86B0B1E6F027100E957D0 /* ofxImageSequenceRecorder */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -907,6 +948,7 @@
 				49BEEB2DFA5319D55AA6899F /* tilt.c in Sources */,
 				722493F71CD5AD5F00F61E39 /* ftDrawForce.cpp in Sources */,
 				722493F91CD5AD5F00F61E39 /* ftFluidSimulation.cpp in Sources */,
+				72F86B0A1E6F022000E957D0 /* ofxThreadedImageLoader.cpp in Sources */,
 				255A7B680DC81E543C875794 /* usb_libusb10.c in Sources */,
 				BCC8D420CBA9217E437D2D76 /* ofxRtMidiIn.cpp in Sources */,
 				3AEFE4FA8AD5C72671AD07F8 /* ofxRtMidiOut.cpp in Sources */,

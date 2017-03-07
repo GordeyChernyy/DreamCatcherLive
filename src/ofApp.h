@@ -16,6 +16,7 @@
 #include "OpticalFlow.hpp"
 #include "ofxKinect.h"
 #include "ofxThreadedImageSaver.hpp"
+#include "ofxImageSequenceRecorder.h"
 
 class ofApp : public ofBaseApp{
     
@@ -187,6 +188,8 @@ public:
         GL_ONE_MINUS_CONSTANT_ALPHA
     };
     
+    void updateSaving();
+    
     ofxThreadedImageSaver imgSaver;
     ofImage img;
     bool isRender = false;
@@ -195,4 +198,9 @@ public:
     void writeToDisk();
     
     ofSoundPlayer sound;
+    ofxImageSequenceRecorder recorder;
+    
+    string curFolderPath;
+    string curFileName;
+    void makeMovie();
 };

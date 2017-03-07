@@ -9,7 +9,7 @@
 		<pointerColor>255, 255, 255, 255</pointerColor>
 	<lightPos>0, 0</lightPos>
 		<lightSmooth>0.02</lightSmooth>
-		<lightOpacity>0</lightOpacity>
+		<lightOpacity>14</lightOpacity>
 		<lightScale>0.02</lightScale>
 		<enableLight>1</enableLight>
 	<aNum>6</aNum>
@@ -25,12 +25,12 @@
 	<DreamBrush>
 		<historyMax>1362</historyMax>
 		<type_line>0</type_line>
-		<size>2341</size>
+		<size>1132</size>
 		<opacity>97.5765</opacity>
 		<lineWidth>1.78571</lineWidth>
 		<swatch>1</swatch>
 		<bgColor>255, 255, 255, 255</bgColor>
-		<activeColor>9, 255, 239, 255</activeColor>
+		<activeColor>255, 0, 0, 255</activeColor>
 		<col1>239, 213, 31, 255</col1>
 		<col2>9, 255, 239, 255</col2>
 		<col3>249, 71, 49, 255</col3>
@@ -51,14 +51,14 @@
 	</movingFbo>
 	<Kaleidoscope>
 		<count>0.336735</count>
-		<offsetX>-0.4</offsetX>
-		<offsetY>-0.2</offsetY>
+		<offsetX>2.55801e+06</offsetX>
+		<offsetY>-3.86929</offsetY>
 		<pos>1024.21, 768.16</pos>
 	<pX>0.331633</pX>
 		<pY>0.0153061</pY>
 	<posX>0.47449</posX>
 		<posY>0.566327</posY>
-		<distortX>0</distortX>
+		<distortX>0.787402</distortX>
 		<distortY>0</distortY>
 	</Kaleidoscope>
 <parameters/>

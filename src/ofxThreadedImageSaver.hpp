@@ -35,7 +35,7 @@ public:
         
         std::stringstream buffer;
         buffer << setfill('0') << setw(8) << counter;
-        string name = "render/frame_" + buffer.str() + ".bmp";
+        string name = "render/frame_" + buffer.str() + ".png";
         
         this->fileName = name;
         

@@ -11,48 +11,60 @@ void ofApp::blendEnd(){
 void ofApp::saveImage() {
 
     // get the raw buffer from ofImage
+    ofPixels pix;
     
-    
-    ofFbo fbo;
-    fbo.allocate(canvasWidth, canvasHight);
-    
-    fbo.begin();
-    ofClear(0);
-    canvas.draw(0, 0, canvasWidth, canvasHight);
-    fbo.end();
-    
-    fbos.push_back(fbo);
+//    fbo.allocate(canvasWidth, canvasHight);
+    canvas.readToPixels(pix);
+    recorder.addFrame(pix);
     
 }
 void ofApp::writeToDisk(){
     
-    int counter = 0;
+
     
-    string folderName = ofSystemTextBoxDialog("folder name: ");
-    for(auto &f : fbos){
-        
-        ofPixels pix;
-        f.readToPixels(pix);
-        
-        std::stringstream buffer;
-        buffer << setfill('0') << setw(8) << counter;
-        string name = "render/" +folderName + "/frame_" + buffer.str() + ".png";
-        
-        ofImage img;
-        img.setFromPixels(pix);
-        
-        img.save(name);
-        
-        counter++;
-    }
+//    int counter = 0;
+//
+//
+//    for(auto &f : fbos){
+//        
+//        ofPixels pix;
+//        f.readToPixels(pix);
+//        
+//        std::stringstream buffer;
+//        buffer << setfill('0') << setw(8) << counter;
+//        string name = "render/" +folderName + "/frame_" + buffer.str() + ".png";
+//        
+//        recorder.addFrame(pix);
+//        
+//        
+//        counter++;
+//    }
+//    fbos.clear();
+
     
-    fbos.clear();
-    sound.play();
+}
+void ofApp::makeMovie(){
+    string terminalCommand;
     
+    ofDirectory dir(curFolderPath);
+    ofDirectory renderPath("render");
+    
+    terminalCommand.append("cd "+ dir.getAbsolutePath() + "\n");
+    terminalCommand.append("ffmpeg -i frame_%04d.tga -r 60 -vf scale=640:-1 -vcodec mjpeg -qscale 8 "
+                           + renderPath.getAbsolutePath()
+                           + "/"
+                           + curFileName
+                           + ".mov" + "\n");
+    
+    ofLog() << terminalCommand;
+//    terminalCommand.append("git push origin master");
+    
+    ofSystem(terminalCommand);
 }
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+    ofSetFrameRate(60);
     
     float sf = 0.3;
     canvasWidth *= sf;
@@ -169,47 +181,22 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-    ofHideCursor();
-    
-    if(isOverload){
-        clearImage();
-    }else{
-        flow.delFbo();
-    }
-    // kinect && flow
-    
-    /*
-    kinect1.update();
-    kinect1.setDepthClipping(0, farClip);
-    kinect2.update();
-    kinect2.setDepthClipping(0, farClip2);
-    flow.update(&kinect1, &kinect2);
-     */
+void ofApp::updateSaving(){
+    if(recorder.isThreadRunning()){
+        ofSetColor(255);
+        
+        stringstream c;
+        c << "\nQueue Size: " << recorder.q.size() << endl;
+        
+        ofDrawBitmapString(c.str(), ofGetWidth()/2, ofGetHeight()/2);
 
-    float smooth = 0.93;
-    camRotX = camRotX*smooth + (1-smooth)*ofMap(korg.sliders[0], 0, 127, -180, 180);
-    camRotY = camRotY*smooth + (1-smooth)*ofMap(korg.sliders[1], 0, 127, -180, 180);
-    camRotZ = camRotZ*smooth + (1-smooth)*ofMap(korg.sliders[2], 0, 127, -180, 180);
-    camDistance = camDistance*smooth + (1-smooth)*ofMap(korg.sliders[3], 0, 127, 0, 2000);
-    isFlower = korg.sliders[0];
-    
-//    meshBrush.brushSize = ofMap(korg.knobs[7], 0, 127, 0, 30);
-    
-    camTarget.setGlobalOrientation(ofQuaternion(camRotX, ofVec3f(1, 0, 0), camRotY, ofVec3f(0, 1, 0), camRotZ, ofVec3f(0, 0, 1)));
-    cam.setPosition(0, 0, camDistance);
-    if(isFlower){
-//        if(korg.buttonsMute[3]){
-//            flower.newShape();
-//        }
-//        if(korg.buttonsRec[3]){
-//            flower.isMesh = true;
-//            flower.isPoly = false;
-//        }else{
-//            flower.isMesh = false;
-//            flower.isPoly = true;
-//        }
+        if(recorder.q.size()==0){
+            recorder.stopThread();
+            makeMovie();
+        }
     }
+}
+void ofApp::update(){
     korg.update();
     meshBrush.update();
     meshBrush.s2 = ofMap(korg.sliders[5], 0, 127, 0, 10);
@@ -228,12 +215,13 @@ void ofApp::update(){
     enableMovingFbo = korg.buttonsSolo[1];
     brushMode = ofMap(korg.sliders[7], 0, 127, 0, 2);
     enableBg = korg.buttonsRec[7];
+    
     // korg: change colors
     int col = ofMap(korg.sliders[6], 0, 127, 0, 3);
     brush.changeColor(col);
     
     // korg: fade to black
-    float fade = ofMap(korg.knobs[6], 0, 127, 0, 50);
+    float fade = ofMap(korg.knobs[7], 0, 127, 0, 50);
     
     canvas.begin();
     ofEnableAlphaBlending();
@@ -278,7 +266,6 @@ void ofApp::draw(){
     
     ofDisableAlphaBlending();
 
-//    ofEnableBlendMode(OF_BLENDMODE_ALPHA);//: blink screen when ofDrawBitmapString
     if(enableBg){
         blendBegin();
     }
@@ -362,6 +349,9 @@ void ofApp::draw(){
     m.append("\n");
     m.append(ofToString(ofGetFrameRate()));
     ofDrawBitmapString(m, 20, 20);
+    
+    updateSaving();
+
 }
 void ofApp::info(){
     string b = "";
@@ -413,7 +403,17 @@ void ofApp::info(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if(key == 'r'){
-        isRender ^= true;
+        string folderName = ofSystemTextBoxDialog("folder name: ");
+        curFileName =folderName;
+        curFolderPath = "render/" + folderName;
+        recorder.setPrefix(ofToDataPath("render/" + folderName + "/frame_")); // this directory must already exist
+        recorder.setFormat("tga"); // png is really slow but high res, bmp is fast but big, jpg is just right
+        
+        recorder.startThread(false);
+        isRender = true;
+    }
+    if(key == 's'){
+        isRender = false;
     }
     if(key == 'd'){
         writeToDisk();
@@ -646,7 +646,7 @@ void ofApp::clearImage(){
 void ofApp::audioIn(float * input, int bufferSize, int nChannels){
 //    cout <<  "input = " << input[0]  << endl;
     if(input[8]>maxVolume){
-        cout << "overload!" << endl;
+//        cout << "overload!" << endl;
         isOverload = true;
     }else{
         isOverload = false;

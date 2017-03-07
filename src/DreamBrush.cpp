@@ -76,8 +76,11 @@ void DreamBrush::changeColor(int num){
     colors[2] = col3;
     if (num==3) {
         activeColor = bgColor;
+    }else if (num > 3 || num < 0 ){
+        activeColor = ofColor::red;
     }else{
         activeColor = colors[num];
+    
     }
 }
 void DreamBrush::changeSwatch(int &swatch){
