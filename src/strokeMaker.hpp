@@ -15,6 +15,12 @@
 
 class strokeMaker{
 public:
+    ~strokeMaker(){
+        parentL.clearParent();
+        parentR.clearParent();
+        childR.clearParent();
+        childL.clearParent();
+    }
     ofNode parentL;
     ofNode childL;
     ofNode parentR;

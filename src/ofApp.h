@@ -18,6 +18,7 @@
 #include "ofxThreadedImageSaver.hpp"
 
 class ofApp : public ofBaseApp{
+    
 public:
 		void setup();
 		void update();

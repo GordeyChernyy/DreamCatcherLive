@@ -8,7 +8,8 @@
     "999015EE524680C74335938659F70512196F22AD" : 0,
     "90E2F969A762FB62C413A0C44D1F334E6EC3F531" : 0,
     "2A03CE0CF301C466938025B767254CAAC3CB8DB0" : 0,
-    "2D8579AC10B3E2BA4EB96EA2A1DC496F8D7C6E0E" : 0
+    "2D8579AC10B3E2BA4EB96EA2A1DC496F8D7C6E0E" : 0,
+    "337C6E3CB5157444A3DC48F3AA0752979326FE8F" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "903388BA-ADFC-41D3-847D-605506F4F2E8",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
@@ -16,7 +17,8 @@
     "999015EE524680C74335938659F70512196F22AD" : "..\/..\/addons\/ofxAutoReloadedShader",
     "90E2F969A762FB62C413A0C44D1F334E6EC3F531" : "..\/..\/addons\/ofxMidi",
     "2A03CE0CF301C466938025B767254CAAC3CB8DB0" : "..\/..\/addons\/ofxFlowTools",
-    "2D8579AC10B3E2BA4EB96EA2A1DC496F8D7C6E0E" : "DreamCatcherLive\/"
+    "2D8579AC10B3E2BA4EB96EA2A1DC496F8D7C6E0E" : "DreamCatcherLive\/",
+    "337C6E3CB5157444A3DC48F3AA0752979326FE8F" : "..\/..\/addons\/ofxTablet"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "DreamCatcherLive",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -36,6 +38,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/GordeyChernyy\/DreamCatcherLive.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2D8579AC10B3E2BA4EB96EA2A1DC496F8D7C6E0E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mattebb\/ofxTablet.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "337C6E3CB5157444A3DC48F3AA0752979326FE8F"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/danomatika\/ofxMidi.git",

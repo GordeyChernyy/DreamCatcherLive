@@ -677,6 +677,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
     bg.loadImage(dragInfo.files[0]);
 }
 void ofApp::exit(){
+    cam.clearParent();
     korg.exit();
     kinect1.close();
     kinect2.close();
